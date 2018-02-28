@@ -1,15 +1,13 @@
 package org.nd4s
 
-import org.nd4s.ops._
-import org.nd4s.Implicits._
 import org.nd4j.linalg.api.complex.IComplexNumber
 import org.nd4j.linalg.api.ndarray.INDArray
-import org.nd4j.linalg.api.ops.Op;
+import org.nd4j.linalg.api.ops.Op
 import org.nd4j.linalg.factory.Nd4j
-import scalaxy.loops._
+import org.nd4s.Implicits._
+import org.nd4s.ops._
 
 import scala.language.postfixOps
-import scala.util.control.Breaks._
 
 /*
   This provides Scala Collection like APIs such as map, filter, exist, forall.
@@ -71,14 +69,20 @@ trait CollectionLikeNDArray[A <: INDArray] {
   def existsRC[B](f: B => Boolean)(implicit ev: NDArrayEvidence[A, B]): Boolean = {
     var result = false
     val lv = ev.linearView(underlying)
-    breakable {
-      for {
-        i <- 0 until lv.length() optimized
-      } if (!f(ev.get(lv, i))) {
+
+    var i = 0
+    var stop = false
+    val end = lv.length()
+
+    while (i < end && !stop) {
+      if (f(ev.get(lv, i))) {
         result = true
-        break()
+        stop = true
       }
+
+      i += 1
     }
+
     result
   }
 
@@ -89,13 +93,18 @@ trait CollectionLikeNDArray[A <: INDArray] {
   def forallRC[B](f: B => Boolean)(implicit ev: NDArrayEvidence[A, B]): Boolean = {
     var result = true
     val lv = ev.linearView(underlying)
-    breakable {
-      for {
-        i <- 0 until lv.length() optimized
-      } if (!f(ev.get(lv, i))) {
+
+    var i = 0
+    var stop = false
+    val end = lv.length()
+
+    while (i < end && !stop) {
+      if (!f(ev.get(lv, i))) {
         result = false
-        break()
+        stop = true
       }
+
+      i += 1
     }
     result
   }

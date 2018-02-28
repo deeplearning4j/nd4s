@@ -1,7 +1,8 @@
 package org.nd4s
 
+import org.nd4j.linalg.factory.Nd4j
 import org.nd4s.Implicits._
-import org.scalatest.{Matchers, FlatSpec}
+import org.scalatest.{FlatSpec, Matchers}
 
 class NDArrayCollectionAPITest extends FlatSpec with Matchers{
   "CollectionLikeNDArray" should "provides filter API" ignore {
@@ -21,6 +22,23 @@ class NDArrayCollectionAPITest extends FlatSpec with Matchers{
         Array(7, 8, 9)
       ).toNDArray)
   }
+
+  it should "have working exists method" in {
+    val arr = Nd4j.create(Array(1f, 2f, 3f))
+
+    assert(arr.exists(_ == 2))
+    assert(!arr.exists(_ < 1))
+    assert(!arr.exists(_ > 3))
+  }
+
+  it should "have working forall method" in {
+    val arr = Nd4j.create(Array(1f, 2f, 3f))
+
+    assert(arr.forall(_ != 0))
+    assert(!arr.forall(_ > 2))
+    assert(!arr.forall(_ < 2))
+  }
+
   it should "provides filter bitmask API" ignore {
     val ndArray =
       Array(

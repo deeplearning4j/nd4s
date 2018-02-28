@@ -16,8 +16,8 @@ lazy val releaseRepositoryId = sys.props.getOrElse("stageRepoId", default = "dep
 }
 
 lazy val commonSettings = Seq(
-  scalaVersion := "2.11.8",
-  crossScalaVersions := Seq("2.10.6", "2.11.8"),
+  scalaVersion := "2.12.4",
+  crossScalaVersions := Seq("2.10.6", "2.11.8", "2.12.4"),
   name := "nd4s",
   version := sys.props.getOrElse("currentVersion", default = "0.9.2-SNAPSHOT"),
   organization := "org.nd4j",
@@ -25,14 +25,13 @@ lazy val commonSettings = Seq(
   resolvers in ThisBuild ++= Seq(Opts.resolver.sonatypeSnapshots),
   nd4jVersion := sys.props.getOrElse("nd4jVersion", default = "0.9.2-SNAPSHOT"),
   libraryDependencies ++= Seq(
-    "com.nativelibs4java" %% "scalaxy-loops" % "0.3.4",
     "org.nd4j" % "nd4j-api" % nd4jVersion.value,
     "org.nd4j" % "nd4j-native-platform" % nd4jVersion.value % Test,
-    "org.scalatest" %% "scalatest" % "2.2.6" % Test,
+    "org.scalatest" %% "scalatest" % "3.0.4" % Test,
     "ch.qos.logback" % "logback-classic" % "1.2.1" % Test,
-    "org.scalacheck" %% "scalacheck" % "1.12.5" % Test,
-    "org.scalanlp" %% "breeze" % "0.12" % Test,
-    "com.github.julien-truffaut" %% "monocle-core" % "1.2.0" % Test
+    "org.scalacheck" %% "scalacheck" % "1.13.4" % Test,
+    "org.scalanlp" %% "breeze" % "0.13.2" % Test,
+    "com.github.julien-truffaut" %% "monocle-core" % "1.4.0" % Test
   ),
   scalacOptions ++= Seq("-unchecked", "-deprecation", "-feature", "-language:implicitConversions", "-language:higherKinds", "-language:postfixOps"),
   publishMavenStyle := true,
