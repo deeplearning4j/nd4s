@@ -1,4 +1,5 @@
 #!groovy
+@Library('skymind@bugfix/change-build-logic') _
 
 /*
     To redefine some job/run parameters,
@@ -7,4 +8,3 @@
  */
 
 jenkinsBuilder()
-
